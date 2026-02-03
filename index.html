@@ -9,16 +9,7 @@ body {
   background: #0f0f0f;
   color: white;
   text-align: center;
-  padding: 15px;
-}
-h1 { margin-bottom: 5px; }
-.setup, .game-area { margin-top: 15px; }
-input {
-  padding: 8px;
-  margin: 5px;
-  border-radius: 6px;
-  border: none;
-  width: 120px;
+  padding: 90px 15px 20px;
 }
 button {
   padding: 10px 14px;
@@ -32,6 +23,34 @@ button {
 .point-btn { background: #1db954; color: white; }
 .next-btn { background: #2196f3; color: white; }
 .shuffle-btn { background: #9c27b0; color: white; }
+
+.top-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: #0f0f0f;
+  z-index: 20;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.6);
+  padding: 10px;
+}
+.turn-display {
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+.top-controls {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+input {
+  padding: 8px;
+  margin: 5px;
+  border-radius: 6px;
+  border: none;
+  width: 120px;
+}
 .card {
   width: 260px;
   height: 380px;
@@ -72,7 +91,7 @@ button {
   padding: 15px;
 }
 .hidden { display: none; }
-.scoreboard { margin-top: 10px; font-size: 14px; }
+.scoreboard { font-size: 14px; }
 .no-anim .card-inner { transition: none !important; }
 .info-text {
   font-size: 18px;
@@ -83,7 +102,16 @@ button {
 </head>
 <body>
 
-<h1>🎵 Music Quiz Game</h1>
+<div class="top-bar">
+  <div class="turn-display" id="turnDisplay"></div>
+  <div class="top-controls">
+    <button class="shuffle-btn" onclick="shuffleDeck()">🔀</button>
+    <button class="point-btn" onclick="addSongPoint()">+1 Song</button>
+    <button class="point-btn" onclick="addBandPoint()">+1 Band</button>
+    <button class="point-btn" onclick="addYearPoint()">+1 Year</button>
+    <button class="next-btn" onclick="nextTurn()">Next ➡</button>
+  </div>
+</div>
 
 <div class="setup">
   <p>Enter up to 6 players</p>
@@ -92,9 +120,6 @@ button {
 </div>
 
 <div class="game-area hidden" id="gameArea">
-  <h2 id="turnDisplay"></h2>
-  <button class="shuffle-btn" onclick="shuffleDeck()">🔀 Shuffle Deck</button>
-
   <div class="card" id="card" onclick="flipCard()">
     <div class="card-inner">
       <div class="card-face card-front">
@@ -107,21 +132,8 @@ button {
       </div>
     </div>
   </div>
-
-  <div>
-    <button class="point-btn" onclick="addSongPoint()">+1 Song</button>
-    <button class="point-btn" onclick="addBandPoint()">+1 Band</button>
-    <button class="point-btn" onclick="addYearPoint()">+1 Year</button>
-  </div>
-
-  <button class="next-btn" onclick="nextTurn()">Next Player ➡</button>
   <div class="scoreboard" id="scoreboard"></div>
 </div>
-
-<!-- Sounds -->
-<audio id="songSound" src="Nice.mp3" preload="auto"></audio>
-<audio id="bandSound" src="Yes.mp3" preload="auto"></audio>
-<audio id="yearSound" src="Awesome.mp3" preload="auto"></audio>
 
 <script>
 // Example deck - update with your own songs
@@ -291,6 +303,12 @@ for (let i = 1; i <= 6; i++) {
     `<input type="text" id="p${i}" placeholder="Player ${i}">`;
 }
 
+function playSound(src) {
+  const sound = new Audio(src);
+  sound.volume = 0.6; // normalized volume
+  sound.play().catch(() => {});
+}
+
 function startGame() {
   players = [];
   scores = {};
@@ -363,40 +381,22 @@ function flipCard() {
   }
 }
 
-function playSongSound() {
-  const sound = document.getElementById("songSound");
-  sound.currentTime = 0;
-  sound.play();
-}
-
-function playBandSound() {
-  const sound = document.getElementById("bandSound");
-  sound.currentTime = 0;
-  sound.play();
-}
-
-function playYearSound() {
-  const sound = document.getElementById("yearSound");
-  sound.currentTime = 0;
-  sound.play();
-}
-
 function addSongPoint() {
   scores[players[currentPlayerIndex]]++;
   updateScoreboard();
-  playSongSound();
+  playSound("Nice.mp3");
 }
 
 function addBandPoint() {
   scores[players[currentPlayerIndex]]++;
   updateScoreboard();
-  playBandSound();
+  playSound("Yes.mp3");
 }
 
 function addYearPoint() {
   scores[players[currentPlayerIndex]]++;
   updateScoreboard();
-  playYearSound();
+  playSound("Awesome.mp3");
 }
 
 function nextTurn() {
@@ -413,7 +413,7 @@ function nextTurn() {
 
 function updateTurnDisplay() {
   document.getElementById("turnDisplay").innerHTML =
-    `Round ${roundNumber} — Question ${questionNumber}<br>${players[currentPlayerIndex]}'s Turn`;
+    `Round ${roundNumber} — Q${questionNumber}<br><strong>${players[currentPlayerIndex]}'s Turn</strong>`;
 }
 
 function updateScoreboard() {
