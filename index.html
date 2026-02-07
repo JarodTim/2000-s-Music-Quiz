@@ -107,7 +107,7 @@ input {
   <div class="top-controls">
     <button class="shuffle-btn" onclick="shuffleDeck()">🔀</button>
     <button class="point-btn" onclick="addSongPoint()">+1 Song</button>
-    <button class="point-btn" onclick="addBandPoint()">+1 Band</button>
+    <button class="point-btn" onclick="addArtistPoint()">+1 Artist</button>
     <button class="point-btn" onclick="addYearPoint()">+1 Year</button>
     <button class="next-btn" onclick="nextTurn()">Next ➡</button>
   </div>
@@ -127,7 +127,7 @@ input {
       </div>
       <div class="card-face card-back">
         <p id="song" class="info-text"></p>
-        <p id="band" class="info-text hidden"></p>
+        <p id="Artist" class="info-text hidden"></p>
         <p id="year" class="info-text hidden"></p>
       </div>
     </div>
@@ -138,154 +138,154 @@ input {
 <script>
 // Example deck - update with your own songs
 const deck = [
-  { qr: "song1.png", song: "Oops!...I Did It Again", band: "Britney Spears", year: "2000" },
-  { qr: "song2.png", song: "Dilemma", band: "Nelly, Kelly Rowland", year: "2002" },
-  { qr: "song3.png", song: "Hung Up", band: "Madonna", year: "2005" },
-  { qr: "song4.png", song: "Since U Been Gone", band: "Kelly Clarkson", year: "2004" },
-  { qr: "song5.png", song: "We Belong Together", band: "Mariah Carey", year: "2005" },
-  { qr: "song6.png", song: "Lady Marmalade", band: "Christina Aguilera, Lil' Kim, Mýa, P!nk", year: "2001" },
-  { qr: "song7.png", song: "Dog Days Are Over", band: "Florence + The Machine", year: "2009" },
-  { qr: "song8.png", song: "Stronger", band: "Britney Spears", year: "2000" },
-  { qr: "song9.png", song: "Sweet Disposition", band: "The Temper Trap", year: "2009" },
-  { qr: "song10.png", song: "Sk8er Boi", band: "Avril Lavigne", year: "2002" },
-  { qr: "song11.png", song: "Young Folks", band: "Peter Bjorn and John", year: "2006" },
-  { qr: "song12.png", song: "Home", band: "Edward Sharpe & The Magnetic Zeros", year: "2009" },
-  { qr: "song13.png", song: "Electric Feel", band: "MGMT", year: "2007" },
-  { qr: "song14.png", song: "White Flag", band: "Dido", year: "2003" },
-  { qr: "song15.png", song: "I'm Like A Bird", band: "Nelly Furtado", year: "2000" },
-  { qr: "song16.png", song: "You've Got The Love", band: "Florence + The Machine", year: "2009" },
-  { qr: "song17.png", song: "Dancing in the Moonlight", band: "Toploader", year: "2000" },
-  { qr: "song18.png", song: "Kids", band: "MGMT", year: "2007" },
-  { qr: "song19.png", song: "Walking On A Dream", band: "Empire Of The Sun", year: "2008" },
-  { qr: "song20.png", song: "Island In The Sun", band: "Weezer", year: "2001" },
-  { qr: "song21.png", song: "Mr. Brightside", band: "The Killers", year: "2004" },
-  { qr: "song22.png", song: "Chasing Cars", band: "Snow Patrol", year: "2006" },
-  { qr: "song23.png", song: "Heads Will Roll", band: "Yeah Yeah Yeahs", year: "2009" },
-  { qr: "song24.png", song: "Pumped Up Kicks", band: "Foster The People", year: "2011" },
-  { qr: "song25.png", song: "Crazy", band: "Gnarls Barkley, CeeLo Green, Danger Mouse", year: "2007" },
-  { qr: "song26.png", song: "Human", band: "The Killers", year: "2008" },
-  { qr: "song28.png", song: "Sex on Fire", band: "Kings of Leon", year: "2008" },
-  { qr: "song29.png", song: "It's My Life", band: "No Doubt", year: "2003" },
-  { qr: "song30.png", song: "Intro", band: "The xx", year: "2009" },
-  { qr: "song31.png", song: "Dancing On My Own", band: "Robyn", year: "2010" },
-  { qr: "song32.png", song: "Are You Gonna Be My Girl", band: "Jet", year: "2003" },
-  { qr: "song33.png", song: "Use Somebody", band: "Kings of Leon", year: "2008" },
-  { qr: "song34.png", song: "Clocks", band: "Coldplay", year: "2002" },
-  { qr: "song35.png", song: "Sing", band: "Travis", year: "2001" },
-  { qr: "song36.png", song: "Take Me Out", band: "Franz Ferdinand", year: "2004" },
-  { qr: "song37.png", song: "Butterfly", band: "Crazy Town", year: "2000" },
-  { qr: "song38.png", song: "The Sweet Escape", band: "Gwen Stefani, Akon", year: "2006" },
-  { qr: "song39.png", song: "Starlight", band: "Muse", year: "2006" },
-  { qr: "song40.png", song: "Teenage Dirtbag", band: "Wheatus", year: "2000" },
-  { qr: "song41.png", song: "When You Were Young", band: "The Killers", year: "2006" },
-  { qr: "song42.png", song: "Mercy", band: "Duffy", year: "2008" },
-  { qr: "song43.png", song: "The Middle", band: "Jimmy Eat World", year: "2001" },
-  { qr: "song44.png", song: "I Don't Feel Like Dancin'", band: "Scissor Sisters", year: "2006" },
-  { qr: "song45.png", song: "The Funeral", band: "Band of Horses", year: "2006" },
-  { qr: "song46.png", song: "Bulletproof", band: "La Roux", year: "2009" },
-  { qr: "song47.png", song: "Hey Ya!", band: "Outkast", year: "2003" },
-  { qr: "song48.png", song: "Seven Nation Army", band: "The White Stripes", year: "2003" },
-  { qr: "song49.png", song: "Beautiful Day", band: "U2", year: "2000" },
-  { qr: "song50.png", song: "Little Lion Man", band: "Mumford & Sons", year: "2009" },
-  { qr: "song51.png", song: "That's Not My Name", band: "The Ting Tings", year: "2008" },
-  { qr: "song52.png", song: "Rehab", band: "Amy Winehouse", year: "2006" },
-  { qr: "song53.png", song: "Heartbeats", band: "José González", year: "2003" },
-  { qr: "song54.png", song: "How to Save a Life", band: "The Fray", year: "2005" },
-  { qr: "song55.png", song: "Can't Get You out of My Head", band: "Kylie Minogue", year: "2001" },
-  { qr: "song56.png", song: "I Believe in a Thing Called Love", band: "The Darkness", year: "2003" },
-  { qr: "song57.png", song: "Grace Kelly", band: "MIKA", year: "2006" },
-  { qr: "song58.png", song: "Snow (Hey Oh)", band: "Red Hot Chili Peppers", year: "2006" },
-  { qr: "song59.png", song: "Fuck You", band: "It's You", year: "2009" },
-  { qr: "song60.png", song: "Move Your Feet", band: "Junior Senior", year: "2002" },
-  { qr: "song61.png", song: "Uprising", band: "Muse", year: "2009" },
-  { qr: "song62.png", song: "Hey There Delilah", band: "Plain White T's", year: "2005" },
-  { qr: "song63.png", song: "Cosmic Love", band: "Florence + The Machine", year: "2009" },
-  { qr: "song64.png", song: "Murder On The Dancefloor", band: "Sophie Ellis-Bextor", year: "2002" },
-  { qr: "song65.png", song: "Say It Right", band: "Nelly Furtado", year: "2006" },
-  { qr: "song66.png", song: "Can't Stop", band: "Red Hot Chili Peppers", year: "2002" },
-  { qr: "song67.png", song: "Meet Me Halfway", band: "Black Eyed Peas", year: "2009" },
-  { qr: "song68.png", song: "Somewhere Only We Know", band: "Keane", year: "2004" },
-  { qr: "song69.png", song: "I Miss You", band: "blink-182", year: "2003" },
-  { qr: "song70.png", song: "I'm with You", band: "Avril Lavigne", year: "2002" },
-  { qr: "song72.png", song: "She Will Be Loved - Radio Mix", band: "Maroon 5", year: "2002" },
-  { qr: "song73.png", song: "Everybody's Changing", band: "Keane", year: "2004" },
-  { qr: "song74.png", song: "Fuck You", band: "CeeLo Green", year: "2010" },
-  { qr: "song75.png", song: "Naive", band: "The Kooks", year: "2006" },
-  { qr: "song76.png", song: "All The Things She Said", band: "t.A.T.u.", year: "2002" },
-  { qr: "song77.png", song: "Complicated", band: "Avril Lavigne", year: "2002" },
-  { qr: "song78.png", song: "Feel Good Inc.", band: "Gorillaz, De La Soul", year: "2005" },
-  { qr: "song79.png", song: "Put Your Records On", band: "Corinne Bailey Rae", year: "2006" },
-  { qr: "song80.png", song: "How You Remind Me", band: "Nickelback", year: "2001" },
-  { qr: "song81.png", song: "Feel", band: "Robbie Williams", year: "2002" },
-  { qr: "song82.png", song: "Behind Blue Eyes", band: "Limp Bizkit", year: "2003" },
-  { qr: "song83.png", song: "Unwritten", band: "Natasha Bedingfield", year: "2004" },
-  { qr: "song84.png", song: "1234", band: "Feist", year: "2007" },
-  { qr: "song85.png", song: "Last Nite", band: "The Strokes", year: "2001" },
-  { qr: "song86.png", song: "Pure Shores", band: "All Saints", year: "2000" },
-  { qr: "song87.png", song: "This Love", band: "Maroon 5", year: "2002" },
-  { qr: "song88.png", song: "Clint Eastwood", band: "Gorillaz, Del The Funky Homosapien", year: "2001" },
-  { qr: "song89.png", song: "Maneater", band: "Nelly Furtado", year: "2006" },
-  { qr: "song90.png", song: "A-Punk", band: "Vampire Weekend", year: "2008" },
-  { qr: "song91.png", song: "Hollaback Girl", band: "Gwen Stefani", year: "2004" },
-  { qr: "song92.png", song: "Fireflies", band: "Owl City", year: "2009" },
-  { qr: "song93.png", song: "Back To Black", band: "Amy Winehouse", year: "2006" },
-  { qr: "song94.png", song: "Dani California", band: "Red Hot Chili Peppers", year: "2006" },
-  { qr: "song95.png", song: "Yellow", band: "Coldplay", year: "2000" },
-  { qr: "song96.png", song: "Who Knew", band: "P!nk", year: "2006" },
-  { qr: "song97.png", song: "Boulevard of Broken Dreams", band: "Green Day", year: "2004" },
-  { qr: "song98.png", song: "Love Song", band: "Sara Bareilles", year: "2007" },
-  { qr: "song99.png", song: "Ruby", band: "Angry Mob", year: "2007" },
-  { qr: "song100.png", song: "I Don't Want to Be", band: "Gavin DeGraw", year: "2003" },
-  { qr: "song101.png", song: "Where Is The Love?", band: "Black Eyed Peas", year: "2003" },
-  { qr: "song102.png", song: "Wherever You Will Go", band: "The Calling", year: "2001" },
-  { qr: "song103.png", song: "Big Girls Don't Cry", band: "Fergie", year: "2006" },
-  { qr: "song104.png", song: "Hey", band: "Save Me", year: "2010" },
-  { qr: "song105.png", song: "By the Way", band: "Red Hot Chilli Peppers", year: "2002" },
-  { qr: "song106.png", song: "Cooler Than Me", band: "Mike Posner, Gigamesh", year: "2010" },
-  { qr: "song107.png", song: "This Is The Life", band: "Amy Macdonald", year: "2007" },
-  { qr: "song108.png", song: "Heavy Cross", band: "Gossip", year: "2009" },
-  { qr: "song109.png", song: "Fix You", band: "Coldplay", year: "2005" },
-  { qr: "song110.png", song: "Fallin'", band: "Alicia Keys", year: "2001" },
-  { qr: "song111.png", song: "Don't Know Why", band: "Norah Jones", year: "2002" },
-  { qr: "song112.png", song: "Apologize", band: "Timbaland, OneRepublic", year: "2007" },
-  { qr: "song113.png", song: "American Boy", band: "Estelle, Kanye West", year: "2008" },
-  { qr: "song114.png", song: "The Scientist", band: "Coldplay", year: "2002" },
-  { qr: "song115.png", song: "Smile", band: "Lily Allen", year: "2006" },
-  { qr: "song116.png", song: "Empire State of Mind", band: "Alicia Keys", year: "2009" },
-  { qr: "song117.png", song: "The Reason", band: "Hoobastank", year: "2004" },
-  { qr: "song118.png", song: "Cry Me a River", band: "Justin Timberlake", year: "2002" },
-  { qr: "song119.png", song: "Viva La Vida", band: "Coldplay", year: "2008" },
-  { qr: "song120.png", song: "Kryptonite", band: "3 Doors Down", year: "2000" },
-  { qr: "song121.png", song: "No One Knows", band: "Queens of the Stone Age", year: "2002" },
-  { qr: "song122.png", song: "Call on Me - Radio Mix", band: "Eric Prydz", year: "2004" },
-  { qr: "song123.png", song: "My Immortal", band: "Evanescence", year: "2003" },
-  { qr: "song124.png", song: "Better Together", band: "Jack Johnson", year: "2005" },
-  { qr: "song125.png", song: "Promiscuous", band: "Nelly Furtado, Timbaland", year: "2006" },
-  { qr: "song126.png", song: "Lady - Hear Me Tonight", band: "Modjo", year: "2001" },
-  { qr: "song127.png", song: "Wake Me up When September Ends", band: "Green Day", year: "2004" },
-  { qr: "song128.png", song: "You Found Me", band: "The Fray", year: "2009" },
-  { qr: "song129.png", song: "You're Beautiful", band: "James Blunt", year: "2005" },
-  { qr: "song130.png", song: "The Pretender", band: "Silence", year: "2007" },
-  { qr: "song131.png", song: "Left Outside Alone", band: "Anastacia", year: "2004" },
-  { qr: "song132.png", song: "Roses", band: "Outkast", year: "2003" },
-  { qr: "song133.png", song: "California", band: "Phantom Planet", year: "2002" },
-  { qr: "song134.png", song: "Waiting On the World to Change", band: "John Mayer", year: "2006" },
-  { qr: "song135.png", song: "Best of You", band: "Foo Fighters", year: "2005" },
-  { qr: "song136.png", song: "What Goes Around Comes Around", band: "Justin Timberlake", year: "2006" },
-  { qr: "song137.png", song: "So What", band: "P!nk", year: "2008" },
-  { qr: "song138.png", song: "The Way I Are", band: "Timbaland, Keri Hilson, D.O.E.", year: "2007" },
-  { qr: "song139.png", song: "Glamorous", band: "Fergie, Ludacris", year: "2006" },
-  { qr: "song140.png", song: "Welcome to the Black Parade", band: "My Chemical Romance", year: "2006" },
-  { qr: "song141.png", song: "Shake It", band: "Metro Station", year: "2007" },
-  { qr: "song142.png", song: "By Your Side", band: "Sade", year: "2000" },
-  { qr: "song143.png", song: "Raise Your Glass", band: "P!nk", year: "2010" },
-  { qr: "song144.png", song: "Bleeding Love", band: "Leona Lewis", year: "2007" },
-  { qr: "song145.png", song: "Gives You Hell", band: "The All-American Rejects", year: "2008" },
-  { qr: "song146.png", song: "Halo", band: "Beyoncé", year: "2008" },
-  { qr: "song147.png", song: "Hot N Cold", band: "Katy Perry", year: "2008" },
-  { qr: "song148.png", song: "Pump It", band: "Black Eyed Peas", year: "2005" },
-  { qr: "song149.png", song: "Ms. Jackson", band: "Outkast", year: "2000" },
-  { qr: "song150.png", song: "Harder", band: "Faster", year: "2001" }
+  { qr: "song1.png", song: "Oops!...I Did It Again", Artist: "Britney Spears", year: "2000" },
+  { qr: "song2.png", song: "Dilemma", Artist: "Nelly, Kelly Rowland", year: "2002" },
+  { qr: "song3.png", song: "Hung Up", Artist: "Madonna", year: "2005" },
+  { qr: "song4.png", song: "Since U Been Gone", Artist: "Kelly Clarkson", year: "2004" },
+  { qr: "song5.png", song: "We Belong Together", Artist: "Mariah Carey", year: "2005" },
+  { qr: "song6.png", song: "Lady Marmalade", Artist: "Christina Aguilera, Lil' Kim, Mýa, P!nk", year: "2001" },
+  { qr: "song7.png", song: "Dog Days Are Over", Artist: "Florence + The Machine", year: "2009" },
+  { qr: "song8.png", song: "Stronger", Artist: "Britney Spears", year: "2000" },
+  { qr: "song9.png", song: "Sweet Disposition", Artist: "The Temper Trap", year: "2009" },
+  { qr: "song10.png", song: "Sk8er Boi", Artist: "Avril Lavigne", year: "2002" },
+  { qr: "song11.png", song: "Young Folks", Artist: "Peter Bjorn and John", year: "2006" },
+  { qr: "song12.png", song: "Home", Artist: "Edward Sharpe & The Magnetic Zeros", year: "2009" },
+  { qr: "song13.png", song: "Electric Feel", Artist: "MGMT", year: "2007" },
+  { qr: "song14.png", song: "White Flag", Artist: "Dido", year: "2003" },
+  { qr: "song15.png", song: "I'm Like A Bird", Artist: "Nelly Furtado", year: "2000" },
+  { qr: "song16.png", song: "You've Got The Love", Artist: "Florence + The Machine", year: "2009" },
+  { qr: "song17.png", song: "Dancing in the Moonlight", Artist: "Toploader", year: "2000" },
+  { qr: "song18.png", song: "Kids", Artist: "MGMT", year: "2007" },
+  { qr: "song19.png", song: "Walking On A Dream", Artist: "Empire Of The Sun", year: "2008" },
+  { qr: "song20.png", song: "Island In The Sun", Artist: "Weezer", year: "2001" },
+  { qr: "song21.png", song: "Mr. Brightside", Artist: "The Killers", year: "2004" },
+  { qr: "song22.png", song: "Chasing Cars", Artist: "Snow Patrol", year: "2006" },
+  { qr: "song23.png", song: "Heads Will Roll", Artist: "Yeah Yeah Yeahs", year: "2009" },
+  { qr: "song24.png", song: "Pumped Up Kicks", Artist: "Foster The People", year: "2011" },
+  { qr: "song25.png", song: "Crazy", Artist: "Gnarls Barkley, CeeLo Green, Danger Mouse", year: "2007" },
+  { qr: "song26.png", song: "Human", Artist: "The Killers", year: "2008" },
+  { qr: "song28.png", song: "Sex on Fire", Artist: "Kings of Leon", year: "2008" },
+  { qr: "song29.png", song: "It's My Life", Artist: "No Doubt", year: "2003" },
+  { qr: "song30.png", song: "Intro", Artist: "The xx", year: "2009" },
+  { qr: "song31.png", song: "Dancing On My Own", Artist: "Robyn", year: "2010" },
+  { qr: "song32.png", song: "Are You Gonna Be My Girl", Artist: "Jet", year: "2003" },
+  { qr: "song33.png", song: "Use Somebody", Artist: "Kings of Leon", year: "2008" },
+  { qr: "song34.png", song: "Clocks", Artist: "Coldplay", year: "2002" },
+  { qr: "song35.png", song: "Sing", Artist: "Travis", year: "2001" },
+  { qr: "song36.png", song: "Take Me Out", Artist: "Franz Ferdinand", year: "2004" },
+  { qr: "song37.png", song: "Butterfly", Artist: "Crazy Town", year: "2000" },
+  { qr: "song38.png", song: "The Sweet Escape", Artist: "Gwen Stefani, Akon", year: "2006" },
+  { qr: "song39.png", song: "Starlight", Artist: "Muse", year: "2006" },
+  { qr: "song40.png", song: "Teenage Dirtbag", Artist: "Wheatus", year: "2000" },
+  { qr: "song41.png", song: "When You Were Young", Artist: "The Killers", year: "2006" },
+  { qr: "song42.png", song: "Mercy", Artist: "Duffy", year: "2008" },
+  { qr: "song43.png", song: "The Middle", Artist: "Jimmy Eat World", year: "2001" },
+  { qr: "song44.png", song: "I Don't Feel Like Dancin'", Artist: "Scissor Sisters", year: "2006" },
+  { qr: "song45.png", song: "The Funeral", Artist: "Artist of Horses", year: "2006" },
+  { qr: "song46.png", song: "Bulletproof", Artist: "La Roux", year: "2009" },
+  { qr: "song47.png", song: "Hey Ya!", Artist: "Outkast", year: "2003" },
+  { qr: "song48.png", song: "Seven Nation Army", Artist: "The White Stripes", year: "2003" },
+  { qr: "song49.png", song: "Beautiful Day", Artist: "U2", year: "2000" },
+  { qr: "song50.png", song: "Little Lion Man", Artist: "Mumford & Sons", year: "2009" },
+  { qr: "song51.png", song: "That's Not My Name", Artist: "The Ting Tings", year: "2008" },
+  { qr: "song52.png", song: "Rehab", Artist: "Amy Winehouse", year: "2006" },
+  { qr: "song53.png", song: "Heartbeats", Artist: "José González", year: "2003" },
+  { qr: "song54.png", song: "How to Save a Life", Artist: "The Fray", year: "2005" },
+  { qr: "song55.png", song: "Can't Get You out of My Head", Artist: "Kylie Minogue", year: "2001" },
+  { qr: "song56.png", song: "I Believe in a Thing Called Love", Artist: "The Darkness", year: "2003" },
+  { qr: "song57.png", song: "Grace Kelly", Artist: "MIKA", year: "2006" },
+  { qr: "song58.png", song: "Snow (Hey Oh)", Artist: "Red Hot Chili Peppers", year: "2006" },
+  { qr: "song59.png", song: "Fuck You", Artist: "It's You", year: "2009" },
+  { qr: "song60.png", song: "Move Your Feet", Artist: "Junior Senior", year: "2002" },
+  { qr: "song61.png", song: "Uprising", Artist: "Muse", year: "2009" },
+  { qr: "song62.png", song: "Hey There Delilah", Artist: "Plain White T's", year: "2005" },
+  { qr: "song63.png", song: "Cosmic Love", Artist: "Florence + The Machine", year: "2009" },
+  { qr: "song64.png", song: "Murder On The Dancefloor", Artist: "Sophie Ellis-Bextor", year: "2002" },
+  { qr: "song65.png", song: "Say It Right", Artist: "Nelly Furtado", year: "2006" },
+  { qr: "song66.png", song: "Can't Stop", Artist: "Red Hot Chili Peppers", year: "2002" },
+  { qr: "song67.png", song: "Meet Me Halfway", Artist: "Black Eyed Peas", year: "2009" },
+  { qr: "song68.png", song: "Somewhere Only We Know", Artist: "Keane", year: "2004" },
+  { qr: "song69.png", song: "I Miss You", Artist: "blink-182", year: "2003" },
+  { qr: "song70.png", song: "I'm with You", Artist: "Avril Lavigne", year: "2002" },
+  { qr: "song72.png", song: "She Will Be Loved - Radio Mix", Artist: "Maroon 5", year: "2002" },
+  { qr: "song73.png", song: "Everybody's Changing", Artist: "Keane", year: "2004" },
+  { qr: "song74.png", song: "Fuck You", Artist: "CeeLo Green", year: "2010" },
+  { qr: "song75.png", song: "Naive", Artist: "The Kooks", year: "2006" },
+  { qr: "song76.png", song: "All The Things She Said", Artist: "t.A.T.u.", year: "2002" },
+  { qr: "song77.png", song: "Complicated", Artist: "Avril Lavigne", year: "2002" },
+  { qr: "song78.png", song: "Feel Good Inc.", Artist: "Gorillaz, De La Soul", year: "2005" },
+  { qr: "song79.png", song: "Put Your Records On", Artist: "Corinne Bailey Rae", year: "2006" },
+  { qr: "song80.png", song: "How You Remind Me", Artist: "Nickelback", year: "2001" },
+  { qr: "song81.png", song: "Feel", Artist: "Robbie Williams", year: "2002" },
+  { qr: "song82.png", song: "Behind Blue Eyes", Artist: "Limp Bizkit", year: "2003" },
+  { qr: "song83.png", song: "Unwritten", Artist: "Natasha Bedingfield", year: "2004" },
+  { qr: "song84.png", song: "1234", Artist: "Feist", year: "2007" },
+  { qr: "song85.png", song: "Last Nite", Artist: "The Strokes", year: "2001" },
+  { qr: "song86.png", song: "Pure Shores", Artist: "All Saints", year: "2000" },
+  { qr: "song87.png", song: "This Love", Artist: "Maroon 5", year: "2002" },
+  { qr: "song88.png", song: "Clint Eastwood", Artist: "Gorillaz, Del The Funky Homosapien", year: "2001" },
+  { qr: "song89.png", song: "Maneater", Artist: "Nelly Furtado", year: "2006" },
+  { qr: "song90.png", song: "A-Punk", Artist: "Vampire Weekend", year: "2008" },
+  { qr: "song91.png", song: "Hollaback Girl", Artist: "Gwen Stefani", year: "2004" },
+  { qr: "song92.png", song: "Fireflies", Artist: "Owl City", year: "2009" },
+  { qr: "song93.png", song: "Back To Black", Artist: "Amy Winehouse", year: "2006" },
+  { qr: "song94.png", song: "Dani California", Artist: "Red Hot Chili Peppers", year: "2006" },
+  { qr: "song95.png", song: "Yellow", Artist: "Coldplay", year: "2000" },
+  { qr: "song96.png", song: "Who Knew", Artist: "P!nk", year: "2006" },
+  { qr: "song97.png", song: "Boulevard of Broken Dreams", Artist: "Green Day", year: "2004" },
+  { qr: "song98.png", song: "Love Song", Artist: "Sara Bareilles", year: "2007" },
+  { qr: "song99.png", song: "Ruby", Artist: "Angry Mob", year: "2007" },
+  { qr: "song100.png", song: "I Don't Want to Be", Artist: "Gavin DeGraw", year: "2003" },
+  { qr: "song101.png", song: "Where Is The Love?", Artist: "Black Eyed Peas", year: "2003" },
+  { qr: "song102.png", song: "Wherever You Will Go", Artist: "The Calling", year: "2001" },
+  { qr: "song103.png", song: "Big Girls Don't Cry", Artist: "Fergie", year: "2006" },
+  { qr: "song104.png", song: "Hey", Artist: "Save Me", year: "2010" },
+  { qr: "song105.png", song: "By the Way", Artist: "Red Hot Chilli Peppers", year: "2002" },
+  { qr: "song106.png", song: "Cooler Than Me", Artist: "Mike Posner, Gigamesh", year: "2010" },
+  { qr: "song107.png", song: "This Is The Life", Artist: "Amy Macdonald", year: "2007" },
+  { qr: "song108.png", song: "Heavy Cross", Artist: "Gossip", year: "2009" },
+  { qr: "song109.png", song: "Fix You", Artist: "Coldplay", year: "2005" },
+  { qr: "song110.png", song: "Fallin'", Artist: "Alicia Keys", year: "2001" },
+  { qr: "song111.png", song: "Don't Know Why", Artist: "Norah Jones", year: "2002" },
+  { qr: "song112.png", song: "Apologize", Artist: "Timbaland, OneRepublic", year: "2007" },
+  { qr: "song113.png", song: "American Boy", Artist: "Estelle, Kanye West", year: "2008" },
+  { qr: "song114.png", song: "The Scientist", Artist: "Coldplay", year: "2002" },
+  { qr: "song115.png", song: "Smile", Artist: "Lily Allen", year: "2006" },
+  { qr: "song116.png", song: "Empire State of Mind", Artist: "Alicia Keys", year: "2009" },
+  { qr: "song117.png", song: "The Reason", Artist: "Hoobastank", year: "2004" },
+  { qr: "song118.png", song: "Cry Me a River", Artist: "Justin Timberlake", year: "2002" },
+  { qr: "song119.png", song: "Viva La Vida", Artist: "Coldplay", year: "2008" },
+  { qr: "song120.png", song: "Kryptonite", Artist: "3 Doors Down", year: "2000" },
+  { qr: "song121.png", song: "No One Knows", Artist: "Queens of the Stone Age", year: "2002" },
+  { qr: "song122.png", song: "Call on Me - Radio Mix", Artist: "Eric Prydz", year: "2004" },
+  { qr: "song123.png", song: "My Immortal", Artist: "Evanescence", year: "2003" },
+  { qr: "song124.png", song: "Better Together", Artist: "Jack Johnson", year: "2005" },
+  { qr: "song125.png", song: "Promiscuous", Artist: "Nelly Furtado, Timbaland", year: "2006" },
+  { qr: "song126.png", song: "Lady - Hear Me Tonight", Artist: "Modjo", year: "2001" },
+  { qr: "song127.png", song: "Wake Me up When September Ends", Artist: "Green Day", year: "2004" },
+  { qr: "song128.png", song: "You Found Me", Artist: "The Fray", year: "2009" },
+  { qr: "song129.png", song: "You're Beautiful", Artist: "James Blunt", year: "2005" },
+  { qr: "song130.png", song: "The Pretender", Artist: "Silence", year: "2007" },
+  { qr: "song131.png", song: "Left Outside Alone", Artist: "Anastacia", year: "2004" },
+  { qr: "song132.png", song: "Roses", Artist: "Outkast", year: "2003" },
+  { qr: "song133.png", song: "California", Artist: "Phantom Planet", year: "2002" },
+  { qr: "song134.png", song: "Waiting On the World to Change", Artist: "John Mayer", year: "2006" },
+  { qr: "song135.png", song: "Best of You", Artist: "Foo Fighters", year: "2005" },
+  { qr: "song136.png", song: "What Goes Around Comes Around", Artist: "Justin Timberlake", year: "2006" },
+  { qr: "song137.png", song: "So What", Artist: "P!nk", year: "2008" },
+  { qr: "song138.png", song: "The Way I Are", Artist: "Timbaland, Keri Hilson, D.O.E.", year: "2007" },
+  { qr: "song139.png", song: "Glamorous", Artist: "Fergie, Ludacris", year: "2006" },
+  { qr: "song140.png", song: "Welcome to the Black Parade", Artist: "My Chemical Romance", year: "2006" },
+  { qr: "song141.png", song: "Shake It", Artist: "Metro Station", year: "2007" },
+  { qr: "song142.png", song: "By Your Side", Artist: "Sade", year: "2000" },
+  { qr: "song143.png", song: "Raise Your Glass", Artist: "P!nk", year: "2010" },
+  { qr: "song144.png", song: "Bleeding Love", Artist: "Leona Lewis", year: "2007" },
+  { qr: "song145.png", song: "Gives You Hell", Artist: "The All-American Rejects", year: "2008" },
+  { qr: "song146.png", song: "Halo", Artist: "Beyoncé", year: "2008" },
+  { qr: "song147.png", song: "Hot N Cold", Artist: "Katy Perry", year: "2008" },
+  { qr: "song148.png", song: "Pump It", Artist: "Black Eyed Peas", year: "2005" },
+  { qr: "song149.png", song: "Ms. Jackson", Artist: "Outkast", year: "2000" },
+  { qr: "song150.png", song: "Harder", Artist: "Faster", year: "2001" }
 ];
 
 let players = [];
@@ -349,11 +349,11 @@ function loadCard() {
   const card = deck[currentCardIndex];
   document.getElementById("qrImage").src = card.qr;
   document.getElementById("song").textContent = card.song;
-  document.getElementById("band").textContent = card.band;
+  document.getElementById("Artist").textContent = card.Artist;
   document.getElementById("year").textContent = card.year;
   
-  // Hide band and year initially
-  document.getElementById("band").classList.add("hidden");
+  // Hide Artist and year initially
+  document.getElementById("Artist").classList.add("hidden");
   document.getElementById("year").classList.add("hidden");
 
   cardEl.classList.remove("no-anim");
@@ -361,7 +361,7 @@ function loadCard() {
 
 function flipCard() {
   const card = document.getElementById("card");
-  const band = document.getElementById("band");
+  const Artist = document.getElementById("Artist");
   const year = document.getElementById("year");
 
   if (revealStep === 0) {
@@ -369,8 +369,8 @@ function flipCard() {
     card.classList.add("flip");
     revealStep = 1;
   } else if (revealStep === 1) {
-    // Second click: reveal band
-    band.classList.remove("hidden");
+    // Second click: reveal Artist
+    Artist.classList.remove("hidden");
     revealStep = 2;
   } else if (revealStep === 2) {
     // Third click: reveal year
@@ -385,7 +385,7 @@ function addSongPoint() {
   playSound("Nice.mp3");
 }
 
-function addBandPoint() {
+function addArtistPoint() {
   scores[players[currentPlayerIndex]]++;
   updateScoreboard();
   playSound("Yes.mp3");
@@ -424,4 +424,5 @@ function updateScoreboard() {
 </script>
 </body>
 </html>
+
 
